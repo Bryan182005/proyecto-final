@@ -236,27 +236,50 @@ const mobiliario = {
         },
     ],
 }
-
+  
 function renderizarProductos() {
     const container = document.getElementById("productos-container");
+
     mobiliario.results.forEach((producto) => {
+        // Crear la tarjeta de producto
         const productCard = document.createElement("div");
         productCard.classList.add("product-card");
 
+        // Contenido de la tarjeta (solo imagen, nombre y precio)
         productCard.innerHTML = `
-        <img src="${producto.image}" alt="${producto.nombre}">
-        <div class="product-card-content">
-          <h3 class="product-name">${producto.nombre}</h3>
-          <p class="product-price">${producto.precio}</p>
-          <p class="product-description">${producto.descripcion}</p>
-          <p><strong>Color:</strong> ${producto.color}</p>
-          <p><strong>Medida:</strong> ${producto.medida}</p>
-          <p><strong>Peso:</strong> ${producto.peso}</p>
-        </div>
-      `;
+            <img src="${producto.image}" alt="${producto.nombre}">
+            <div class="product-card-content">
+                <h3 class="product-name">${producto.nombre}</h3>
+                <p class="product-price">${producto.precio}</p>
+            </div>
+        `;
+
+        // Evento para mostrar el detalle del producto al hacer clic
+        productCard.addEventListener("click", () => {
+            mostrarDetalleProducto(producto);
+        });
 
         container.appendChild(productCard);
     });
+}
+
+// Función para mostrar el detalle del producto en la sección aparte
+function mostrarDetalleProducto(producto) {
+    const detalleProducto = document.getElementById("detalle-producto");
+
+    // Actualizar el contenido de detalle-producto
+    detalleProducto.innerHTML = `
+        <h2>${producto.nombre}</h2>
+        <img src="${producto.image}" alt="${producto.nombre}">
+        <p><strong>Precio:</strong> ${producto.precio}</p>
+        <p><strong>Descripción:</strong> ${producto.descripcion}</p>
+        <p><strong>Color:</strong> ${producto.color}</p>
+        <p><strong>Medida:</strong> ${producto.medida}</p>
+        <p><strong>Peso:</strong> ${producto.peso}</p>
+    `;
+
+    // Asegurarse de que la clase 'mostrar' está aplicada para hacer visible la sección de detalles
+    detalleProducto.classList.add("mostrar");
 }
 
 // Llamamos a la función para renderizar los productos cuando la página cargue

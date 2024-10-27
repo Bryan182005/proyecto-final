@@ -1,11 +1,43 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
-    
+  <header>
+    <img src="../Designer.jpeg" alt="Logo de la Empresa" width="50" height="50">
+    <h1>Ramos Mobiliario S.A.S</h1>
+  </header>
+
+  <section>
+    <p>Nombre del Comprador</p>
+    <input type="text" id="nombre" placeholder="Ingrese su nombre" required>
+
+    <p>Alcance de Presupuesto</p>
+    <input type="number" id="presupuesto" placeholder="Ingrese su presupuesto" required>
+
+    <p>Cantidad de Artículos Máxima</p>
+    <input type="number" id="cantidad" placeholder="Cantidad de artículos" required>
+
+    <p>Dirección</p>
+    <input type="text" id="direccion" placeholder="Ingrese su dirección" required>
+
+    <p>Tipo de Entrega</p>
+    <label><input type="radio" name="entrega" value="domicilio" required> A Domicilio</label>
+    <label><input type="radio" name="entrega" value="punto" required> En Punto</label>
+  </section>
+
+  <nav>
+    <button id="iniciarCompra" onclick="iniciarCompra()">Iniciar Compra</button>
+    <button id="limpiar" onclick="limpiarCampos()">Limpiar</button>
+  </nav>
+
+  <footer>
+    <p>&copy; 2024 Ramos Mobiliario S.A.S - Todos los derechos reservados.</p>
+  </footer>
+
+  <script src="../../js/index.js"></script>
 </body>
 </html>
