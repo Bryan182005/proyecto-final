@@ -1,7 +1,7 @@
 # proyecto-final
 *En este pryecto se vera ilustrado todo el codigo **html, css y js** de una tienda virtual asociada a la venta de mobiliario.
 
-###CARPETAS:
+##CARPETAS:
 * CAPETA HTML
 * CARPETA CSS
 * CARPETA JS
