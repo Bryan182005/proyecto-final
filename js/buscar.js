@@ -463,7 +463,6 @@ function renderizarProductos() {
             </div>
         `;
 
-        // Evento para mostrar el detalle del producto al hacer clic
         productCard.addEventListener("click", () => {
             mostrarDetalleProducto(producto);
         });
@@ -472,11 +471,9 @@ function renderizarProductos() {
     });
 }
 
-// Función para mostrar el detalle del producto en la sección aparte
 function mostrarDetalleProducto(producto) {
     const detalleProducto = document.getElementById("detalle-producto");
 
-    // Actualizar el contenido de detalle-producto
     detalleProducto.innerHTML = `
         <h2>${producto.nombre}</h2>
         <img src="${producto.image}" alt="${producto.nombre}">
