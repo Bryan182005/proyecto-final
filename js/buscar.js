@@ -254,7 +254,7 @@ const mobiliario = {
             medida: "105cm",
             peso: "0.7kg",
             descripcion: "Un clásico de nuestra colección. El Umbrella es perfecto para un bar, una sala de estar, un despacho o la cocina..... ¡este gran reloj llama la atención de inmediato! Los cuatro dígitos pueden montarse de forma flexible o dejarse fuera. Disponible en varios colores.",
-            image: "https://cdn.wonderstatic.com/product-image/lozko-tivoli-160x200-cm-ecru-1.jpg?width=850&height=650&quality=85&dpr=1.25&format=pjpg&auto=webp&fit=bounds&io=true",
+            image: "https://cdn.wonderstatic.com/product-image/zegar-wiszacy-like-umbrella-o100-cm-czarny-1.jpg?width=850&height=650&quality=85&dpr=1.25&format=pjpg&auto=webp&fit=bounds&io=true",
         },
         {
             id: 24,
@@ -487,9 +487,7 @@ function mostrarDetalleProducto(producto) {
         <p><strong>Peso:</strong> ${producto.peso}</p>
     `;
 
-    // Asegurarse de que la clase 'mostrar' está aplicada para hacer visible la sección de detalles
     detalleProducto.classList.add("mostrar");
 }
 
-// Llamamos a la función para renderizar los productos cuando la página cargue
 document.addEventListener("DOMContentLoaded", renderizarProductos);
