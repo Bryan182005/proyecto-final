@@ -11,14 +11,60 @@
     <h1>Ramos Mobiliario S.A.S</h1>
     <h2>Catálogo de Mobiliario</h2>
   </header>
-  <section>
-    <div id="productos-container" class="productos-container"></div>
-  </section>
-  <aside>
-  <div id="detalle-producto" class="detalle-producto">
-    <p>Selecciona un producto para ver sus detalles</p>
+  <div class="main-container">
+    <section class="productos-section">
+      <div id="productos-container" class="productos-container"></div>
+    </section>
+    <aside class="detalle-section">
+      <div id="detalle-producto" class="detalle-producto">
+        <h2>Detalle del producto</h2>
+        <button id="CerrarDetalle" class="close-btn">X</button>
+        <p>Selecciona un producto para ver sus detalles</p>
+      </div>
+    </aside>
+    <!-- Botón para abrir el filtro -->
+    <button id="abrirFiltro" class="filtro-boton">Filtrar productos</button>
+
+  <!-- Ventana emergente del filtro -->
+  <div id="Filtro" class="Filtro">
+    <div class="contenidoFiltro">
+      <span id="salirFiltro" class="salir-Filtro">&times;</span>
+      <h2>Filtrar Productos</h2>
+      
+      <!-- Filtro por categoría -->
+      <label for="filtroCategoria">Categoría:</label>
+      <select id="filtroCategoria">
+        <option value="">Selecciona una categoría</option>
+        <option value="Escolar">Escolar</option>
+        <option value="Administrativo">Administrativo</option>
+        <option value="Sala">Sala</option>
+        <option value="Comedor">Comedor</option>
+        <!-- Agrega más opciones según tus categorías -->
+      </select>
+
+      <!-- Filtro por cantidad -->
+      <label for="filtroCantidad">Cantidad Necesaria:</label>
+      <select id="filtroCantidad">
+        <option value="">Selecciona un rango</option>
+        <option value="1-5">1 - 5</option>
+        <option value="6-10">6 - 10</option>
+        <option value="11-20">11 - 20</option>
+        <option value="20+">Más de 20</option>
+      </select>
+
+      <div class="botones-Filtro">
+      <!-- Botón para aplicar el filtro -->
+      <button id="aplicarFiltro" class="aplicarfiltroBoton">Aplicar Filtro</button>
+
+      <button id="limpiarFiltro" class="limpiar-Filtro">Limpiar Filtro</button>
+
+      <p id="mensajeError" class="mensaje-error">No hay productos que cumplan con estas caracteristicas</p>
+      <p id="mensajeCorrectivo" class="mensaje-correctivo">Por favor, seleccione al menos una opción de filtro.</p>
+      </div>
+    </div>
   </div>
-  </aside>
+  </div>
   <script src="../../js/buscar.js"></script>
 </body>
 </html>
+
