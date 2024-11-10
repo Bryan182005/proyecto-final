@@ -109,7 +109,7 @@ header h1, header h2 {
   margin: 0 auto; /* Centra la sección */
   width: 1000px; /* Ancho máximo */
   height: auto;
-  max-height: 1000px;
+  max-height: 1100px;
 }
 
 
@@ -177,9 +177,9 @@ header h1, header h2 {
 /* Estilo para el botón de filtro */
 .filtro-boton {
   position: fixed;
-  top: 20px;
-  right: 20px;
-  padding: 10px 15px;
+  top: 30px;
+  left: 20px;
+  padding: 12px 17px;
   background-color: #007bff;
   color: white;
   border: none;
@@ -193,7 +193,6 @@ header h1, header h2 {
   background-color: #0056b3;
 }
 
-/* Estilos para la ventana emergente del filtro */
 .Filtro {
   display: none; 
   position: fixed;
@@ -216,7 +215,7 @@ header h1, header h2 {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   position: relative;
 }
-/* Estilos para los elementos de filtro */
+
 .contenidoFiltro h2 {
   margin-bottom: 20px;
   font-size: 1.5em;
@@ -287,4 +286,74 @@ header h1, header h2 {
 
 .limpiar-Filtro:hover {
   background-color: #f0a103;
+}
+
+/* Estilos para los botones de navegación */
+.navegacion-botones {
+  display: flex;
+  gap: 10px;
+  position: fixed;
+  top: 30px;
+  right: 20px;
+  z-index: 10;
+}
+
+.navegacion-boton {
+  padding: 12px 17px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.navegacion-boton:hover {
+  background-color: #0056b3;
+}
+
+/* Estilo para el mensaje de error debajo del botón "Añadir al carrito" */
+.mensaje-error {
+  display: none; 
+  color: red; 
+  font-size: 0.9em;
+  margin-top: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Mostrar el mensaje cuando se añada la clase 'visible' */
+.mensaje-error.visible {
+  display: block;
+}
+
+.Añadircompra{
+  background-color: #007bff; 
+    color: white;
+    padding: 10px 20px; 
+    font-size: 1em; 
+    font-weight: bold;
+    border: none;
+    border-radius: 8px; /
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    display: inline-block; 
+    max-width: 100%; 
+    white-space: nowrap; 
+    text-align: center;
+}
+
+
+.Añadircompra:hover {
+  background-color: #0056b3;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.detalle-producto .detalle-info button {
+  width: auto; 
+  height: auto;
+  overflow: visible; 
 }

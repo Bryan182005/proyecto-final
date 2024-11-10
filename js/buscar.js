@@ -510,13 +510,15 @@ function renderizarProductos(productos = mobiliario.results) {
     });
 }
 
+// Evento para cargar los productos cuando el DOM esté listo
+document.addEventListener("DOMContentLoaded", () => renderizarProductos());
+
 // Función para mostrar los detalles del producto
 function mostrarDetalleProducto(id) {
     const producto = mobiliario.results.find(item => item.id === id);
     const detalleProducto = document.getElementById("detalle-producto");
     const detalleSection = document.querySelector('.detalle-section');
 
-    // Mostrar los detalles del producto con un diseño mejorado
     detalleProducto.innerHTML = `
         <button id="CerrarDetalle" class="close-btn" onclick="cerrarDetalle()">X</button>
         <h2>Detalle del Producto</h2>
@@ -525,16 +527,23 @@ function mostrarDetalleProducto(id) {
         <div class="detalle-info">
             <p><strong>Precio:</strong> ${producto.precio}</p>
             <p class="descripcion"><strong>Descripción:</strong> ${producto.descripcion}</p>
-            <p><strong>Categoria:</strong> ${producto.categoria}</p>
+            <p><strong>Categoría:</strong> ${producto.categoria}</p>
             <p><strong>Color:</strong> ${producto.color}</p>
             <p><strong>Cantidad Disponible:</strong> ${producto.cantidad_disponible}</p>
             <p><strong>Medida:</strong> ${producto.medida}</p>
             <p><strong>Peso:</strong> ${producto.peso}</p>
+            <p><strong>Cantidad Necesitada:</strong> <input type="number" id="cantidad" placeholder="Cantidad de artículos"></p>
+            <button id="Añadircarrito" class="Añadircompra">Añadir al carrito</button>
+            <p id="mensajeErrorCarrito" class="mensaje-error"></p>
         </div>
     `;
 
     detalleSection.classList.add("mostrar");
     detalleSection.scrollIntoView({ behavior: "smooth" });
+
+    // Agregar evento al botón "Añadir al carrito" con el producto actual
+    const botonAñadirCarrito = document.getElementById("Añadircarrito");
+    botonAñadirCarrito.addEventListener("click", () => validarCantidadYAgregarAlCarrito(producto));
 }
 
 // Función para cerrar la sección de detalles
@@ -543,121 +552,111 @@ function cerrarDetalle() {
     detalleSection.classList.remove("mostrar");
 }
 
-// Función para abrir la ventana emergente de filtro
-const iniciarFiltro = document.getElementById("abrirFiltro");
-iniciarFiltro.addEventListener("click", abrirfiltro);
+// Función de validación para añadir al carrito
+function validarCantidadYAgregarAlCarrito(producto) {
+    const cantidadInput = document.getElementById("cantidad").value;
+    const mensajeCarrito = document.getElementById("mensajeErrorCarrito");
 
-function abrirfiltro() {
-    document.getElementById("Filtro").style.display = "flex";
+    const cantidadSolicitada = parseInt(cantidadInput, 10);
+    
+    if (isNaN(cantidadSolicitada) || cantidadSolicitada <= 0) {
+        mensajeCarrito.textContent = "Por favor, ingrese una cantidad válida.";
+        mensajeCarrito.classList.add("visible");
+        return;
+    }
+
+    if (cantidadSolicitada > producto.cantidad_disponible) {
+        mensajeCarrito.textContent = "La cantidad solicitada no está disponible actualmente.";
+        mensajeCarrito.classList.add("visible");
+    } else {
+        mensajeCarrito.textContent = "Producto añadido al carrito";
+        mensajeCarrito.classList.add("visible");
+
+        // Añadir el producto al carrito (con los datos requeridos)
+        const productoCarrito = {
+            nombre: producto.nombre,
+            imagen: producto.image,
+            precio: producto.precio,
+            cantidad: cantidadSolicitada,
+            categoria: producto.categoria,
+            medidas: producto.medida
+        };
+
+        let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+        carrito.push(productoCarrito);
+        localStorage.setItem("carrito", JSON.stringify(carrito));
+
+        setTimeout(() => {
+            mensajeCarrito.classList.remove("visible");
+            mensajeCarrito.textContent = "";
+        }, 3000);
+    }
 }
 
-// Función para cerrar la ventana emergente de filtro
-const salirFiltro = document.getElementById("salirFiltro");
-salirFiltro.addEventListener("click", cerrarFiltro);
+// Funcionalidad de Filtro
+
+// Eventos para abrir y cerrar el filtro
+document.getElementById("abrirFiltro").addEventListener("click", abrirFiltro);
+document.getElementById("salirFiltro").addEventListener("click", cerrarFiltro);
+
+function abrirFiltro() {
+    document.getElementById("Filtro").style.display = "flex";
+}
 
 function cerrarFiltro() {
     document.getElementById("Filtro").style.display = "none";
 }
 
 // Función para aplicar el filtro
-const aplicarFiltro = document.getElementById("aplicarFiltro");
-aplicarFiltro.addEventListener("click", ejecutarFiltro);
+document.getElementById("aplicarFiltro").addEventListener("click", ejecutarFiltro);
 
 function ejecutarFiltro() {
     const seleccionCategoria = document.getElementById("filtroCategoria").value;
     const seleccionCantidad = document.getElementById("filtroCantidad").value;
 
     const productosFiltrados = mobiliario.results.filter(producto => {
-        // Filtrar por categoría
         if (seleccionCategoria && producto.categoria !== seleccionCategoria) {
             return false;
         }
 
-        // Filtrar por cantidad usando rangos específicos
         if (seleccionCantidad) {
-            if (seleccionCantidad === "1-5" && (producto.cantidad_disponible < 1 && producto.cantidad_disponible > 5)) {
-                return false;
-            }
-            if (seleccionCantidad === "6-10" && (producto.cantidad_disponible < 6 && producto.cantidad_disponible > 10)) {
-                return false;
-            }
-            if (seleccionCantidad === "11-20" && (producto.cantidad_disponible < 11 && producto.cantidad_disponible > 20)) {
-                return false;
-            }
-
-            if (seleccionCantidad === "20+" && producto.cantidad_disponible <= 20) {
-                return false;
-            }
+            const cantidadDisponible = producto.cantidad_disponible;
+            if (seleccionCantidad === "1-5" && (cantidadDisponible < 1 || cantidadDisponible > 5)) return false;
+            if (seleccionCantidad === "6-10" && (cantidadDisponible < 6 || cantidadDisponible > 10)) return false;
+            if (seleccionCantidad === "11-20" && (cantidadDisponible < 11 || cantidadDisponible > 20)) return false;
+            if (seleccionCantidad === "20+" && cantidadDisponible <= 20) return false;
         }
 
         return true;
     });
 
-    if(!seleccionCategoria && !seleccionCantidad){
-        mensajeCorrectivo.style.display = "block";
-        ejecutarFiltro = false; 
-        return;
-    }
-    else{
-        mensajeCorrectivo.style.display = "none";
-        ejecutarFiltro = true;
-    }
-
-    // Mostrar mensaje si no se encuentran productos
     if (productosFiltrados.length === 0) {
-        mensajeError.style.display = "block";
-        ejecutarFiltro = false; 
+        document.getElementById("mensajeError").style.display = "block";
     } else {
-        mensajeError.style.display = "none";
-        ejecutarFiltro = true; 
+        document.getElementById("mensajeError").style.display = "none";
+        renderizarProductos(productosFiltrados);
+        cerrarFiltro();
     }
-    if(productosFiltrados.length > 0){
-    renderizarProductos(productosFiltrados);
-    document.getElementById("Filtro").style.display = "none";
 }
-}
+
 // Función para limpiar el filtro
+document.getElementById("limpiarFiltro").addEventListener("click", limpiarFiltro);
+
 function limpiarFiltro() {
-    // Restablecer los valores de los campos de filtro
     document.getElementById("filtroCategoria").value = "";
     document.getElementById("filtroCantidad").value = "";
-
-    // Ocultar el mensaje de error y correctivo
-    const mensajeError = document.getElementById("mensajeError");
-    mensajeError.style.display = "none";
-
-    const mensajeCorrectivo = document.getElementById("mensajeCorrectivo");
-    mensajeCorrectivo.style.display = "none";
-
-
-    // Renderizar todos los productos (sin filtros)
-    renderizarProductos();
+    document.getElementById("mensajeError").style.display = "none";
+    renderizarProductos(mobiliario.results); // Renderizar todos los productos
+    cerrarFiltro();
 }
 
-// Evento para el botón de "Limpiar Filtro"
-    const renovarFiltro = document.getElementById("limpiarFiltro");
-    renovarFiltro.addEventListener("click", limpiarFiltro);
-    
-// Función para renderizar productos (con los productos filtrados o todos los productos por defecto)
-function renderizarProductos(productos = mobiliario.results) {
-    const container = document.getElementById("productos-container");
-    container.innerHTML = ""; // Limpia el contenedor antes de agregar productos
-
-    productos.forEach((producto) => {
-        const productCard = document.createElement("div");
-        productCard.classList.add("product-card");
-
-        productCard.innerHTML = `
-            <img src="${producto.image}" alt="${producto.nombre}">
-            <div class="product-card-content">
-                <h3 class="product-name">${producto.nombre}</h3>
-                <p class="product-price">${producto.precio}</p>
-                <button class="ver-detalle-btn" onclick="mostrarDetalleProducto(${producto.id})">Ver detalles</button>
-            </div>
-        `;
-
-        container.appendChild(productCard);
-    });
+// Navegación entre páginas
+const comprar = document.getElementById("comprar");
+if (comprar) {
+    comprar.addEventListener("click", () => window.location.href = "comprar.html");
 }
 
-document.addEventListener("DOMContentLoaded", () => renderizarProductos());
+const cancelar = document.getElementById("cancelar");
+if (cancelar) {
+    cancelar.addEventListener("click", () => window.location.href = "index.html");
+}

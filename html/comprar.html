@@ -1,100 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Carrito de Compras</title>
+    <link rel="stylesheet" href="../../css/comprar.css">
 </head>
 <body>
-    <table>
-        <thead>
-            <tr>
-                <th>
-                    Nombre
-                </th>
-                <th>
-                    Imagen
-                </th>
-                <th>
-                    Precio
-                </th>
-                <th>
-                    Cantidad
-                </th>
-                <th>
-                    Categoria
-                </th>
-                <th>
-                    Medidas
-                </th>
-                <th>
-                    Accion
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Atributo 1</td>
-                <td>Atributo 2</td>
-                <td>Atributo 3</td>
-                <td>Atributo 4</td>
-                <td>Atributo 5</td>
-                <td>Atributo 6</td>
-                <td><button>Eliminar</button></td>
-            </tr>
-            </tr>
-            <tr>
-                <td>Atributo 1</td>
-                <td>Atributo 2</td>
-                <td>Atributo 3</td>
-                <td>Atributo 4</td>
-                <td>Atributo 5</td>
-                <td>Atributo 6</td>
-                <td><button>Eliminar</button></td>
-            </tr>
-            </tr>
-            <tr>
-                <td>Atributo 1</td>
-                <td>Atributo 2</td>
-                <td>Atributo 3</td>
-                <td>Atributo 4</td>
-                <td>Atributo 5</td>
-                <td>Atributo 6</td>
-                <td><button>Eliminar</button></td>
-            </tr>
-            </tr>
-            <tr>
-                <td>Atributo 1</td>
-                <td>Atributo 2</td>
-                <td>Atributo 3</td>
-                <td>Atributo 4</td>
-                <td>Atributo 5</td>
-                <td>Atributo 6</td>
-                <td><button>Eliminar</button></td>
-            </tr>
-            </tr>
-            <tr>
-                <td>Atributo 1</td>
-                <td>Atributo 2</td>
-                <td>Atributo 3</td>
-                <td>Atributo 4</td>
-                <td>Atributo 5</td>
-                <td>Atributo 6</td>
-                <td><button>Eliminar</button></td>
-            </tr>
-            </tr>
-            <tr>
-                <td>Atributo 1</td>
-                <td>Atributo 2</td>
-                <td>Atributo 3</td>
-                <td>Atributo 4</td>
-                <td>Atributo 5</td>
-                <td>Atributo 6</td>
-                <td><button>Eliminar</button></td>
-            </tr>
-            </tr>
-        </tbody>
-    </table>
+    <header>
+        <h1>Carrito de Compras</h1>
+    </header>
 
+    <main class="carrito-container">
+        <!-- Tabla de Compra Actual -->
+        <section id="compra-actual" class="seccion">
+            <h2>Compra Actual</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Imagen</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Categoría</th>
+                        <th>Medidas</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="tabla-productos">
+                    <!-- Productos añadidos dinámicamente aquí -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Sección de Resumen de Compra -->
+        <section id="resumen-compra" class="seccion">
+            <h2>Resumen de Compra</h2>
+            <p id="total-productos">Total de productos: 0</p>
+            <p id="total-compra">Total de la compra: $0.00</p>
+            <p id="cargo-domicilio">Cargo por domicilio: $0.00</p>
+        </section>
+
+        <!-- Botones de Navegación -->
+        <section id="acciones-compra" class="seccion">
+            <button id="botonRegresar">Regresar a productos</button>
+            <button id="botonCancelar">Cancelar compra</button>
+        </section>
+
+        <!-- Sección de Tarjeta de Crédito -->
+        <section id="tarjeta-credito" class="seccion">
+            <h2>Tarjeta de Crédito</h2>
+            <form id="form-tarjeta">
+                <label for="nombre-titular">Nombre del Titular:</label>
+                <input type="text" id="nombre-titular" required>
+                
+                <label for="numero-tarjeta">Número de Tarjeta:</label>
+                <input type="text" id="numero-tarjeta" maxlength="16" required>
+                
+                <label for="fecha-expiracion">Fecha de Expiración (MM/AA):</label>
+                <input type="text" id="fecha-expiracion" maxlength="5" required>
+                
+                <label for="cvv">CVV:</label>
+                <input type="text" id="cvv" maxlength="3" required>
+
+                <button type="submit" id="btn-ejecutar-compra">Ejecutar Compra</button>
+            </form>
+        </section>
+    </main>
+
+    <script src="../../js/comprar.js"></script>
 </body>
 </html>

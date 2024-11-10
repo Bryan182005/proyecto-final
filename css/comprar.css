@@ -1,0 +1,94 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+header {
+    width: 100%;
+    text-align: center;
+    background-color: #007bff;
+    color: white;
+    padding: 15px 0;
+    margin-bottom: 20px;
+}
+
+.carrito-container {
+    max-width: 800px;
+    width: 100%;
+}
+
+.seccion {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+table th, table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+table th {
+    background-color: #007bff;
+    color: white;
+}
+
+button {
+    padding: 10px 15px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+#botonRegresar {
+    background-color: #28a745;
+    color: white;
+}
+
+#botonCancelar {
+    background-color: #dc3545;
+    color: white;
+}
+
+#btn-ejecutar-compra {
+    background-color: #007bff;
+    color: white;
+    width: 100%;
+    margin-top: 10px;
+}
+
+#form-tarjeta label {
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+#form-tarjeta input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
