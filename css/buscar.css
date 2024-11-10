@@ -335,7 +335,7 @@ header h1, header h2 {
     font-size: 1em; 
     font-weight: bold;
     border: none;
-    border-radius: 8px; /
+    border-radius: 8px;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
     transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
