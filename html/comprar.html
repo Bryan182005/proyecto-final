@@ -37,8 +37,9 @@
         <section id="resumen-compra" class="seccion">
             <h2>Resumen de Compra</h2>
             <p id="total-productos">Total de productos: 0</p>
-            <p id="total-compra">Total de la compra: $0.00</p>
-            <p id="cargo-domicilio">Cargo por domicilio: $0.00</p>
+            <p id="total-compra">Total de la compra: $0</p>
+            <p id="cargo-domicilio">Cargo por domicilio: $0</p>
+            <p id="total">Total: $0</p>
         </section>
 
         <!-- Botones de Navegación -->
@@ -50,20 +51,64 @@
         <!-- Sección de Tarjeta de Crédito -->
         <section id="tarjeta-credito" class="seccion">
             <h2>Tarjeta de Crédito</h2>
-            <form id="form-tarjeta">
-                <label for="nombre-titular">Nombre del Titular:</label>
-                <input type="text" id="nombre-titular" required>
+            <form id="origen-tarjeta">
+                <!-- Número de tarjeta -->
+                <label for="numero-tarjeta">Número de tarjeta:</label>
+                <input type="text" id="numero-tarjeta" maxlength="16" placeholder="Ingresa tu número de tarjeta" required>
+            
+                <!-- Fecha de expiración -->
+                <label for="fecha-expiracion">Fecha de expiración (MM/AA):</label>
+                <input type="text" id="fecha-expiracion" placeholder="MM/AA" maxlength="5" required>
+            
+                <!-- Código de seguridad -->
+                <label for="codigo-seguridad">Código de seguridad:</label>
+                <div class="seguridad">
+                    <input type="password" id="codigo-seguridad" maxlength="3" placeholder="***" required>
+                    <button type="button" id="mostrar-codigo">👁️</button>
+                </div>
+            
+                <!-- Nombre del titular -->
+                <label for="nombre-titular">Nombre del titular:</label>
+                <input type="text" id="nombre-titular" placeholder="Nombre del titular de la tarjeta" required>
+            
+                <!-- País de emisión -->
+                <label for="pais-emision">País de emisión:</label>
+                <select id="pais-emision" required>
+                    <option value="">Selecciona un país</option>
+                    <option value="US">Estados Unidos</option>
+                    <option value="CO">Colombia</option>
+                    <option value="MX">México</option>
+                    <option value="AR">Argentina</option>
+                    <option value="BR">Brasil</option>
+                    <option value="CL">Chile</option>
+                    <option value="PE">Perú</option>
+                    <option value="EC">Ecuador</option>
+                    <option value="VE">Venezuela</option>
+                    <option value="UY">Uruguay</option>
+                </select>
+            
+                <!-- Tipo de tarjeta -->
+                <label>Tipo de tarjeta:</label>
+                <div>
+                    <input type="radio" id="mastercard" name="tipo-tarjeta" value="Mastercard" required>
+                    <label for="mastercard">Mastercard</label>
+                </div>
+                <div>
+                    <input type="radio" id="visa" name="tipo-tarjeta" value="Visa">
+                    <label for="visa">Visa</label>
+                </div>
+                <div>
+                    <input type="radio" id="prepagada" name="tipo-tarjeta" value="Prepagada">
+                    <label for="prepagada">Prepagada</label>
+                </div>
+            
+                <!-- Mensaje de Procesando Compra -->
+                <p id="mensaje-procesando" style="display: none; color: blue;">Procesando compra...</p>
                 
-                <label for="numero-tarjeta">Número de Tarjeta:</label>
-                <input type="text" id="numero-tarjeta" maxlength="16" required>
-                
-                <label for="fecha-expiracion">Fecha de Expiración (MM/AA):</label>
-                <input type="text" id="fecha-expiracion" maxlength="5" required>
-                
-                <label for="cvv">CVV:</label>
-                <input type="text" id="cvv" maxlength="3" required>
-
-                <button type="submit" id="btn-ejecutar-compra">Ejecutar Compra</button>
+                <!-- Botones -->
+                <button type="button" id="limpiar-campos">Limpiar Campos</button>
+                <button type="submit" id="ejecutar-compra">Confirmar Compra</button>
+                <p id="mensaje-procesando">Procesando compra...</p>
             </form>
         </section>
     </main>

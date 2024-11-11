@@ -486,10 +486,40 @@ const mobiliario = {
     ],
 }
   
-// Función para renderizar productos
-function renderizarProductos(productos = mobiliario.results) {
+let productosCargados = 0; // Contador de productos cargados
+const productosPorPagina = 15; // Número de productos a cargar por vez
+let cargando = false; // Bandera para evitar múltiples cargas simultáneas
+let finDeProductos = false; // Bandera para mostrar el mensaje de fin solo una vez
+let productosFiltrados = []; // Lista de productos después del filtro
+
+// Función para cargar y renderizar productos con scroll infinito
+function cargarProductos() {
+    // Verificar si ya no hay más productos por cargar
+    if (productosCargados >= (productosFiltrados.length || mobiliario.results.length)) {
+        if (!finDeProductos) { // Mostrar el mensaje solo una vez
+            mostrarMensajeFinProductos();
+            finDeProductos = true; // Evitar que el mensaje se muestre varias veces
+        }
+        return;
+    }
+
+    // Obtener los siguientes productos desde la base de datos o los productos filtrados
+    const productos = (productosFiltrados.length ? productosFiltrados : mobiliario.results).slice(productosCargados, productosCargados + productosPorPagina);
+    productosCargados += productos.length;
+    renderizarProductos(productos);
+}
+
+// Función para mostrar mensaje cuando no hay más productos
+function mostrarMensajeFinProductos() {
+    const mensaje = document.getElementById("mensaje-fin-productos");
+    if (mensaje) {
+        mensaje.style.display = "block"; // Mostrar el mensaje
+    }
+}
+
+// Modificar renderizarProductos para que no limpie el contenedor cada vez que se llame
+function renderizarProductos(productos) {
     const container = document.getElementById("productos-container");
-    container.innerHTML = ""; // Limpia el contenedor antes de agregar productos
 
     productos.forEach((producto) => {
         // Crear la tarjeta de producto
@@ -510,10 +540,89 @@ function renderizarProductos(productos = mobiliario.results) {
     });
 }
 
-// Evento para cargar los productos cuando el DOM esté listo
-document.addEventListener("DOMContentLoaded", () => renderizarProductos());
+// Función para manejar el scroll infinito
+function manejarScrollInfinito() {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 && !cargando && !finDeProductos) {
+        cargando = true; // Evitar que se cargue más de una vez
+        cargarProductos();
+        cargando = false; // Permitir que se cargue nuevamente si es necesario
+    }
+}
 
-// Función para mostrar los detalles del producto
+// Evento para cargar los primeros productos cuando el DOM esté listo
+document.addEventListener("DOMContentLoaded", () => {
+    productosFiltrados = []; // Inicializamos los productos filtrados como vacíos al cargar
+    cargarProductos(); // Cargar los primeros 15 productos
+    window.addEventListener("scroll", manejarScrollInfinito); // Añadir el evento de scroll
+});
+
+document.getElementById("aplicarFiltro").addEventListener("click", ejecutarFiltro);
+// Función para aplicar el filtro
+function ejecutarFiltro() {
+    const seleccionCategoria = document.getElementById("filtroCategoria").value;
+    const seleccionCantidad = document.getElementById("filtroCantidad").value;
+
+    // Filtrar productos basados en la categoría y la cantidad seleccionada
+    productosFiltrados = mobiliario.results.filter(producto => {
+        if (seleccionCategoria && producto.categoria !== seleccionCategoria) {
+            return false;
+        }
+
+        if (seleccionCantidad) {
+            const cantidadDisponible = producto.cantidad_disponible;
+            if (seleccionCantidad === "1-5" && (cantidadDisponible < 1 || cantidadDisponible > 5)) return false;
+            if (seleccionCantidad === "6-10" && (cantidadDisponible < 6 || cantidadDisponible > 10)) return false;
+            if (seleccionCantidad === "11-20" && (cantidadDisponible < 11 || cantidadDisponible > 20)) return false;
+            if (seleccionCantidad === "20+" && cantidadDisponible <= 20) return false;
+        }
+
+        return true;
+    });
+
+    // Limpiar contenedor y bandera de fin de productos antes de renderizar
+    const container = document.getElementById("productos-container");
+    container.innerHTML = ""; // Limpiar productos actuales
+    productosCargados = 0; // Reiniciar el contador
+    finDeProductos = false; // Reiniciar bandera de fin de productos
+
+    if (productosFiltrados.length === 0) {
+        document.getElementById("mensajeError").style.display = "block"; // Mostrar mensaje si no hay productos
+    } else {
+        document.getElementById("mensajeError").style.display = "none"; // Ocultar mensaje si hay productos
+        cargarProductos(); // Cargar productos filtrados
+        cerrarFiltro();
+    }
+}
+
+document.getElementById("limpiarFiltro").addEventListener("click", limpiarFiltro);
+// Función para limpiar el filtro
+function limpiarFiltro() {
+    document.getElementById("filtroCategoria").value = "";
+    document.getElementById("filtroCantidad").value = "";
+    document.getElementById("mensajeError").style.display = "none";
+    
+    productosFiltrados = []; // Limpiar productos filtrados para mostrar todos
+    const container = document.getElementById("productos-container");
+    container.innerHTML = ""; // Limpiar productos actuales
+    productosCargados = 0; // Reiniciar el contador
+    finDeProductos = false; // Reiniciar bandera de fin de productos
+    cargarProductos(); // Cargar todos los productos nuevamente
+    cerrarFiltro();
+}
+
+// Funciones de abrir y cerrar el filtro
+document.getElementById("abrirFiltro").addEventListener("click", abrirFiltro);
+document.getElementById("salirFiltro").addEventListener("click", cerrarFiltro);
+
+function abrirFiltro() {
+    document.getElementById("Filtro").style.display = "flex";
+}
+
+function cerrarFiltro() {
+    document.getElementById("Filtro").style.display = "none";
+}
+
+// Función para mostrar los detalles del producto (se mantiene igual)
 function mostrarDetalleProducto(id) {
     const producto = mobiliario.results.find(item => item.id === id);
     const detalleProducto = document.getElementById("detalle-producto");
@@ -541,7 +650,6 @@ function mostrarDetalleProducto(id) {
     detalleSection.classList.add("mostrar");
     detalleSection.scrollIntoView({ behavior: "smooth" });
 
-    // Agregar evento al botón "Añadir al carrito" con el producto actual
     const botonAñadirCarrito = document.getElementById("Añadircarrito");
     botonAñadirCarrito.addEventListener("click", () => validarCantidadYAgregarAlCarrito(producto));
 }
@@ -552,19 +660,40 @@ function cerrarDetalle() {
     detalleSection.classList.remove("mostrar");
 }
 
-// Función de validación para añadir al carrito
+const comprar = document.getElementById("comprar");
+
+comprar.addEventListener("click",ircomprar);
+
+function ircomprar()
+{
+    window.location.href = "comprar.html";
+}
+
+const regresar = document.getElementById("cancelar");
+
+regresar.addEventListener("click",irinicio);
+
+function irinicio()
+{
+    window.location.href = "index.html";
+}
+
+// Función para validar y añadir al carrito
 function validarCantidadYAgregarAlCarrito(producto) {
     const cantidadInput = document.getElementById("cantidad").value;
     const mensajeCarrito = document.getElementById("mensajeErrorCarrito");
 
+    // Convertir la entrada a número entero
     const cantidadSolicitada = parseInt(cantidadInput, 10);
-    
+
+    // Validación 1: Verificar que la cantidad sea un número positivo
     if (isNaN(cantidadSolicitada) || cantidadSolicitada <= 0) {
         mensajeCarrito.textContent = "Por favor, ingrese una cantidad válida.";
         mensajeCarrito.classList.add("visible");
         return;
     }
 
+    // Validación 2: Verificar que la cantidad solicitada no exceda la cantidad disponible
     if (cantidadSolicitada > producto.cantidad_disponible) {
         mensajeCarrito.textContent = "La cantidad solicitada no está disponible actualmente.";
         mensajeCarrito.classList.add("visible");
@@ -572,7 +701,7 @@ function validarCantidadYAgregarAlCarrito(producto) {
         mensajeCarrito.textContent = "Producto añadido al carrito";
         mensajeCarrito.classList.add("visible");
 
-        // Añadir el producto al carrito (con los datos requeridos)
+        // Añadir el producto al carrito con los datos requeridos
         const productoCarrito = {
             nombre: producto.nombre,
             imagen: producto.image,
@@ -582,81 +711,15 @@ function validarCantidadYAgregarAlCarrito(producto) {
             medidas: producto.medida
         };
 
+        // Guardar en el carrito (almacenado en localStorage)
         let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
         carrito.push(productoCarrito);
         localStorage.setItem("carrito", JSON.stringify(carrito));
 
+        // Ocultar el mensaje de éxito después de unos segundos
         setTimeout(() => {
             mensajeCarrito.classList.remove("visible");
             mensajeCarrito.textContent = "";
         }, 3000);
     }
-}
-
-// Funcionalidad de Filtro
-
-// Eventos para abrir y cerrar el filtro
-document.getElementById("abrirFiltro").addEventListener("click", abrirFiltro);
-document.getElementById("salirFiltro").addEventListener("click", cerrarFiltro);
-
-function abrirFiltro() {
-    document.getElementById("Filtro").style.display = "flex";
-}
-
-function cerrarFiltro() {
-    document.getElementById("Filtro").style.display = "none";
-}
-
-// Función para aplicar el filtro
-document.getElementById("aplicarFiltro").addEventListener("click", ejecutarFiltro);
-
-function ejecutarFiltro() {
-    const seleccionCategoria = document.getElementById("filtroCategoria").value;
-    const seleccionCantidad = document.getElementById("filtroCantidad").value;
-
-    const productosFiltrados = mobiliario.results.filter(producto => {
-        if (seleccionCategoria && producto.categoria !== seleccionCategoria) {
-            return false;
-        }
-
-        if (seleccionCantidad) {
-            const cantidadDisponible = producto.cantidad_disponible;
-            if (seleccionCantidad === "1-5" && (cantidadDisponible < 1 || cantidadDisponible > 5)) return false;
-            if (seleccionCantidad === "6-10" && (cantidadDisponible < 6 || cantidadDisponible > 10)) return false;
-            if (seleccionCantidad === "11-20" && (cantidadDisponible < 11 || cantidadDisponible > 20)) return false;
-            if (seleccionCantidad === "20+" && cantidadDisponible <= 20) return false;
-        }
-
-        return true;
-    });
-
-    if (productosFiltrados.length === 0) {
-        document.getElementById("mensajeError").style.display = "block";
-    } else {
-        document.getElementById("mensajeError").style.display = "none";
-        renderizarProductos(productosFiltrados);
-        cerrarFiltro();
-    }
-}
-
-// Función para limpiar el filtro
-document.getElementById("limpiarFiltro").addEventListener("click", limpiarFiltro);
-
-function limpiarFiltro() {
-    document.getElementById("filtroCategoria").value = "";
-    document.getElementById("filtroCantidad").value = "";
-    document.getElementById("mensajeError").style.display = "none";
-    renderizarProductos(mobiliario.results); // Renderizar todos los productos
-    cerrarFiltro();
-}
-
-// Navegación entre páginas
-const comprar = document.getElementById("comprar");
-if (comprar) {
-    comprar.addEventListener("click", () => window.location.href = "comprar.html");
-}
-
-const cancelar = document.getElementById("cancelar");
-if (cancelar) {
-    cancelar.addEventListener("click", () => window.location.href = "index.html");
 }

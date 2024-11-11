@@ -79,16 +79,133 @@ button {
     margin-top: 10px;
 }
 
-#form-tarjeta label {
+#origen-tarjeta label {
     display: block;
     margin-top: 10px;
     font-weight: bold;
 }
 
-#form-tarjeta input {
+#origen-tarjeta input {
     width: 100%;
     padding: 8px;
     margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
+}
+
+.seguridad{
+    display: flex;
+    align-items: center;
+}
+
+/*Estilos generales del formulario */
+#origen-tarjeta {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+#origen-tarjeta label {
+    display: block;
+    font-weight: bold;
+    color: #333;
+    margin-top: 15px;
+}
+
+#origen-tarjeta input[type="text"],
+#origen-tarjeta input[type="password"],
+#origen-tarjeta select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+#origen-tarjeta input[type="text"]:focus,
+#origen-tarjeta input[type="password"]:focus,
+#origen-tarjeta select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Estilos del botón de mostrar/ocultar código de seguridad */
+#mostrar-codigo {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #007bff;
+    margin-left: 5px;
+    transition: color 0.3s;
+}
+
+#mostrar-codigo:hover {
+    color: #0056b3;
+}
+
+/* Estilo para los radio buttons de tipo de tarjeta */
+#origen-tarjeta div {
+    margin-top: 10px;
+}
+
+#origen-tarjetaa input[type="radio"] {
+    margin-right: 5px;
+}
+
+#origen-tarjeta label[for="mastercard"],
+#origen-tarjetaa label[for="visa"],
+#origen-tarjeta label[for="prepagada"] {
+    font-weight: normal;
+    font-size: 16px;
+    color: #555;
+}
+
+/* Estilo para los botones */
+#origen-tarjeta button[type="button"],
+#origen-tarjeta button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#limpiar-campos {
+    background-color: #f39c12;
+}
+
+#limpiar-campos:hover {
+    background-color: #e67e22;
+}
+
+#origen-tarjeta button[type="submit"] {
+    background-color: #007bff;
+}
+
+#origen-tarjeta button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Estilos para el mensaje de error */
+input:invalid {
+    border-color: #e74c3c;
+}
+
+#mensaje-procesando{
+    display: none;
+    color: blue;
+    margin-top: 10px;
 }

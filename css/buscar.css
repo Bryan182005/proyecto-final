@@ -357,3 +357,11 @@ header h1, header h2 {
   height: auto;
   overflow: visible; 
 }
+
+.mensaje-fin {
+  display: none;
+  text-align: center;
+  color: gray;
+  font-size: 1em;
+  margin-top: 20px;
+}
