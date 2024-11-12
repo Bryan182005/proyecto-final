@@ -12,34 +12,56 @@ body {
     flex-direction: column;
     align-items: center;
     padding: 20px;
+    background-image: url("../IMG/Fondo.jpeg"); /* Cambia aquí la ruta de la imagen */
+    background-size: 2200px auto; /* Hace que la imagen cubra todo el fondo */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    background-attachment: fixed;
 }
 
 header {
     width: 100%;
     text-align: center;
-    background-color: #007bff;
+    background-color: #fcbf49;
     color: white;
     padding: 15px 0;
     margin-bottom: 20px;
 }
 
 .carrito-container {
-    max-width: 800px;
+    max-width: 1200px; /* Aumenta el ancho máximo para acomodar las dos columnas */
+    display: flex; /* Usa flexbox para colocar las dos secciones en columnas */
+    justify-content: space-between; /* Separa las secciones izquierda y derecha */
+    gap: 20px; /* Espacio entre columnas */
+    margin: 0 auto; /* Centra el contenedor en la página */
     width: 100%;
 }
 
+/* Estilos para la columna izquierda (compra actual y resumen) */
+.columna-izquierda {
+    flex: 1; /* Ocupa la mitad del espacio disponible */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.columna-derecha {
+    flex: 1; /* Ocupa la mitad del espacio disponible */
+}
+
+/* Ajustes adicionales para secciones individuales */
 .seccion {
-    margin-bottom: 20px;
-    padding: 20px;
     background-color: #fff;
+    padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+/* Ajustes para la tabla en la columna izquierda */
 table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
+    background-color: #f4f4f9;
 }
 
 table th, table td {
@@ -49,7 +71,7 @@ table th, table td {
 }
 
 table th {
-    background-color: #007bff;
+    background-color: #fcbf49;
     color: white;
 }
 
@@ -111,7 +133,6 @@ button {
 
 #origen-tarjeta label {
     display: block;
-    font-weight: bold;
     color: #333;
     margin-top: 15px;
 }
@@ -165,7 +186,14 @@ button {
 #origen-tarjeta label[for="prepagada"] {
     font-weight: normal;
     font-size: 16px;
-    color: #555;
+    color: #000000;
+}
+
+#origen-tarjeta img[alt="mastercard"],
+#origen-tarjeta img[alt="visa"],
+#origen-tarjeta img[alt="american"]{
+    width: 90px;
+    height: 40px;
 }
 
 /* Estilo para los botones */
@@ -192,11 +220,11 @@ button {
 }
 
 #origen-tarjeta button[type="submit"] {
-    background-color: #007bff;
+    background-color: #f39c12;
 }
 
 #origen-tarjeta button[type="submit"]:hover {
-    background-color: #0056b3;
+    background-color: #e67e22;
 }
 
 /* Estilos para el mensaje de error */

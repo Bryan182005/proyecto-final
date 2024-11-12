@@ -10,10 +10,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const codigoSeguridad = document.getElementById("codigo-seguridad");
     const mostrarCodigoBtn = document.getElementById("mostrar-codigo");
     const nombreTitular = document.getElementById("nombre-titular");
-    const paisEmision = document.getElementById("pais-emision");
     const tipoTarjeta = document.getElementsByName("tipo-tarjeta");
     const limpiarCamposBtn = document.getElementById("limpiar-campos");
-    const confirmarCompra = origenTarjeta.querySelector("ejecutar-compra");
+    const confirmarCompra = document.getElementById("ejecutar-compra");
     const mensajeProcesando = document.getElementById("mensaje-procesando"); // Mensaje de "Procesando compra..."
     let compraEnProceso = false;
 
@@ -71,10 +70,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
     renderizarTabla();
 
-    // Validación de número de tarjeta
-    numeroTarjeta.addEventListener("input", function () {
-        numeroTarjeta.value = numeroTarjeta.value.replace(/\D/g, "");
+        numeroTarjeta.addEventListener("input", function () {
+        // Eliminar todos los caracteres que no sean dígitos
+        let tarjetaSinEspacios = numeroTarjeta.value.replace(/\D/g, "");
+    
+        // Limitar el número de dígitos a 19
+        if (tarjetaSinEspacios.length > 19) {
+            tarjetaSinEspacios = tarjetaSinEspacios.slice(0, 19);
+        }
+    
+        // Formatear el número de tarjeta con espacios: XXXX XXXX XXXX XXXX XXX
+        const tarjetaFormateada = tarjetaSinEspacios.replace(/(\d{4})(?=\d)/g, "$1 ");
+    
+        // Guardar la posición del cursor antes de actualizar el valor
+        const cursorPosition = numeroTarjeta.selectionStart;
+    
+        // Actualizar el valor del input con el número formateado
+        numeroTarjeta.value = tarjetaFormateada;
+    
+        // Restaurar la posición del cursor después de formatear
+        numeroTarjeta.setSelectionRange(cursorPosition, cursorPosition);
     });
+    
+    
 
     // Validación de fecha de expiración en formato MM/AA
     fechaExpiracion.addEventListener("input", function () {
@@ -113,11 +131,6 @@ document.addEventListener("DOMContentLoaded", function () {
         compraEnProceso = true;
         mostrarMensajeProcesando();
     }
-    function habilitarBotones() {
-        confirmarCompra.disabled = false;
-        compraEnProceso = false;
-        ocultarMensajeProcesando();
-    }
 
     // Validación de la compra
     function validarCompra() {
@@ -126,11 +139,11 @@ document.addEventListener("DOMContentLoaded", function () {
         if (totalCantidad > 20) {
             return "La cantidad de productos no debe sobrepasar los 20.";
         }
-        if (totalPrecio > 1000000) { // Ejemplo de límite de presupuesto
+        if (totalPrecio > 1000000000000) { // Ejemplo de límite de presupuesto
             return "El presupuesto fue sobrepasado.";
         }
-        if (!numeroTarjeta.value || numeroTarjeta.value.length !== 16) {
-            return "Número de tarjeta inválido (debe ser de 16 dígitos).";
+        if (!numeroTarjeta.value || numeroTarjeta.value.length !== 19) {
+            return "Número de tarjeta inválido (debe ser de 19 dígitos).";
         }
         if (!fechaExpiracion.value.match(/^(0[1-9]|1[0-2])\/\d{2}$/)) {
             return "Fecha de expiración inválida (MM/AA).";
@@ -150,46 +163,72 @@ document.addEventListener("DOMContentLoaded", function () {
     const confirmarcompra = document.getElementById("ejecutar-compra");
     confirmarcompra.addEventListener("click",procesarCompra);
     // Función de simulación de compra
-    function procesarCompra() {
-        return new Promise((resolve, reject) => {
-            mostrarMensajeProcesando(); // Mostrar mensaje de "Procesando compra..."
-            setTimeout(() => {
-                const exito = Math.random() > 0.2; // 80% de probabilidad de éxito
-                ocultarMensajeProcesando(); // Oculta el mensaje "Procesando compra..." al finalizar
-                if (exito) {
-                    resolve(alert("Pago realizado con éxito."));
-                } else {
-                    reject(alert("Hubo un error al procesar el pago."));
-                }
-            }, Math.floor(Math.random() * 1000) + 2000); // Tiempo aleatorio entre 2 y 3 segundos
-        });
+function procesarCompra() {
+    return new Promise((resolve, reject) => {
+        mostrarMensajeProcesando(); // Mostrar mensaje de "Procesando compra..."
+        
+        setTimeout(() => {
+            ocultarMensajeProcesando(); // Oculta el mensaje "Procesando compra..." al finalizar
+
+            // Simulamos el resultado del procesamiento de pago
+            const exito = Math.random() > 0.2; // 80% de probabilidad de éxito
+            
+            if (exito) {
+                resolve("Pago realizado con éxito.");
+            } else {
+                reject("Hubo un error al procesar el pago.");
+            }
+        }, Math.floor(Math.random() * 1000) + 2000); // Tiempo aleatorio entre 2 y 3 segundos
+    });
+}
+
+// Manejador de envío del formulario
+origenTarjeta.addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    // Validación de la compra
+    const error = validarCompra();
+    if (error) {
+        alert(error);
+        return;
     }
 
-    origenTarjeta.addEventListener("submit", function (event) {
-        event.preventDefault();
+    // Verificar si la compra ya está en proceso
+    if (compraEnProceso) {
+        alert("La compra ya está en proceso, por favor espere.");
+        return;
+    }
 
-        if (compraEnProceso) {
-            alert("La compra ya está en proceso, por favor espere.");
-            return;
-        }
+    confirmarCompra.disabled = true; // Inhabilitar el botón para evitar múltiples envíos
+    compraEnProceso = true; // Marcar el proceso de compra como activo
 
-        confirmarCompra.disabled = true; // Inhabilitar el botón para evitar múltiples envíos
-        compraEnProceso = true; // Marcar el proceso de compra como activo
+    inhabilitarBotones();
 
-        inhabilitarBotones();
-
-        procesarCompra()
-            .then((mensajeExito) => {
-                alert(mensajeExito); // Mostrar mensaje de éxito después de ocultar "Procesando compra..."
-                origenTarjeta.reset(); // Limpiar el formulario tras éxito
-                window.location.href = "index.html"; // Redirigir a la página principal
-            })
-            .catch((error) => {
-                alert(error); // Mostrar error si el pago falla
-            })
-            .finally(() => {
-                confirmarCompra.disabled = false; // Rehabilitar el botón de confirmación
-                compraEnProceso = false; // Marcar el proceso de compra como inactivo
-            });
-    });
+    // Llamar a la función de procesamiento de compra
+    procesarCompra()
+        .then((mensajeExito) => {
+            alert(mensajeExito); // Mostrar mensaje de éxito después de ocultar "Procesando compra..."
+            origenTarjeta.reset(); // Limpiar el formulario tras éxito
+            window.location.href = "index.html"; // Redirigir a la página principal
+        })
+        .catch((error) => {
+            alert(error); // Mostrar error si el pago falla
+        })
 });
+});
+
+const regresar = document.getElementById("botonRegresar");
+
+regresar.addEventListener("click",irvista2);
+
+function irvista2(){
+    window.location.href = "buscar.html";
+}
+
+const cancelar = document.getElementById("botonCancelar");
+
+cancelar.addEventListener("click",irvista1);
+
+function irvista1(){
+    window.location.href = "index.html";
+}

@@ -12,9 +12,8 @@
     </header>
 
     <main class="carrito-container">
-        <!-- Tabla de Compra Actual -->
-        <section id="compra-actual" class="seccion">
-            <h2>Compra Actual</h2>
+        <div class="columna-izquierda">
+            <section>
             <table>
                 <thead>
                     <tr>
@@ -47,14 +46,14 @@
             <button id="botonRegresar">Regresar a productos</button>
             <button id="botonCancelar">Cancelar compra</button>
         </section>
-
+    </div>
         <!-- Sección de Tarjeta de Crédito -->
         <section id="tarjeta-credito" class="seccion">
             <h2>Tarjeta de Crédito</h2>
             <form id="origen-tarjeta">
                 <!-- Número de tarjeta -->
                 <label for="numero-tarjeta">Número de tarjeta:</label>
-                <input type="text" id="numero-tarjeta" maxlength="16" placeholder="Ingresa tu número de tarjeta" required>
+                <input type="text" id="numero-tarjeta" maxlength="19" placeholder="Ingresa tu número de tarjeta" required>
             
                 <!-- Fecha de expiración -->
                 <label for="fecha-expiracion">Fecha de expiración (MM/AA):</label>
@@ -90,16 +89,19 @@
                 <!-- Tipo de tarjeta -->
                 <label>Tipo de tarjeta:</label>
                 <div>
-                    <input type="radio" id="mastercard" name="tipo-tarjeta" value="Mastercard" required>
                     <label for="mastercard">Mastercard</label>
+                    <input type="radio" id="mastercard" name="tipo-tarjeta" value="Mastercard" required>
+                    <img src="../IMG/mastercard.png" alt="mastercard">
                 </div>
                 <div>
-                    <input type="radio" id="visa" name="tipo-tarjeta" value="Visa">
                     <label for="visa">Visa</label>
+                    <input type="radio" id="visa" name="tipo-tarjeta" value="Visa">
+                    <img src="../IMG/R.png" alt="visa">
                 </div>
                 <div>
+                    <label for="prepagada">American Express</label>
                     <input type="radio" id="prepagada" name="tipo-tarjeta" value="Prepagada">
-                    <label for="prepagada">Prepagada</label>
+                    <img src="../IMG/american.png" alt="american">
                 </div>
             
                 <!-- Mensaje de Procesando Compra -->

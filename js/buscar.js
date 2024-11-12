@@ -497,26 +497,17 @@ function cargarProductos() {
     // Verificar si ya no hay más productos por cargar
     if (productosCargados >= (productosFiltrados.length || mobiliario.results.length)) {
         if (!finDeProductos) { // Mostrar el mensaje solo una vez
-            mostrarMensajeFinProductos();
+            alert("NO HAY MAS PRODUCTOS PARA MOSTRAR")
             finDeProductos = true; // Evitar que el mensaje se muestre varias veces
         }
         return;
     }
-
+    
     // Obtener los siguientes productos desde la base de datos o los productos filtrados
     const productos = (productosFiltrados.length ? productosFiltrados : mobiliario.results).slice(productosCargados, productosCargados + productosPorPagina);
     productosCargados += productos.length;
     renderizarProductos(productos);
 }
-
-// Función para mostrar mensaje cuando no hay más productos
-function mostrarMensajeFinProductos() {
-    const mensaje = document.getElementById("mensaje-fin-productos");
-    if (mensaje) {
-        mensaje.style.display = "block"; // Mostrar el mensaje
-    }
-}
-
 // Modificar renderizarProductos para que no limpie el contenedor cada vez que se llame
 function renderizarProductos(productos) {
     const container = document.getElementById("productos-container");
