@@ -27,12 +27,12 @@
                     </tr>
                 </thead>
                 <tbody id="tabla-productos">
-                    <!-- Productos añadidos dinámicamente aquí -->
+                    
                 </tbody>
             </table>
         </section>
 
-        <!-- Sección de Resumen de Compra -->
+        
         <section id="resumen-compra" class="seccion">
             <h2>Resumen de Compra</h2>
             <p id="total-productos">Total de productos: 0</p>
@@ -41,36 +41,36 @@
             <p id="total">Total: $0</p>
         </section>
 
-        <!-- Botones de Navegación -->
+        
         <section id="acciones-compra" class="seccion">
             <button id="botonRegresar">Regresar a productos</button>
             <button id="botonCancelar">Cancelar compra</button>
         </section>
     </div>
-        <!-- Sección de Tarjeta de Crédito -->
+        
         <section id="tarjeta-credito" class="seccion">
             <h2>Tarjeta de Crédito</h2>
             <form id="origen-tarjeta">
-                <!-- Número de tarjeta -->
+                
                 <label for="numero-tarjeta">Número de tarjeta:</label>
                 <input type="text" id="numero-tarjeta" maxlength="19" placeholder="Ingresa tu número de tarjeta" required>
             
-                <!-- Fecha de expiración -->
+                
                 <label for="fecha-expiracion">Fecha de expiración (MM/AA):</label>
                 <input type="text" id="fecha-expiracion" placeholder="MM/AA" maxlength="5" required>
             
-                <!-- Código de seguridad -->
+                
                 <label for="codigo-seguridad">Código de seguridad:</label>
                 <div class="seguridad">
                     <input type="password" id="codigo-seguridad" maxlength="3" placeholder="***" required>
                     <button type="button" id="mostrar-codigo">👁️</button>
                 </div>
             
-                <!-- Nombre del titular -->
+                
                 <label for="nombre-titular">Nombre del titular:</label>
                 <input type="text" id="nombre-titular" placeholder="Nombre del titular de la tarjeta" required>
             
-                <!-- País de emisión -->
+                
                 <label for="pais-emision">País de emisión:</label>
                 <select id="pais-emision" required>
                     <option value="">Selecciona un país</option>
@@ -86,7 +86,7 @@
                     <option value="UY">Uruguay</option>
                 </select>
             
-                <!-- Tipo de tarjeta -->
+                
                 <label>Tipo de tarjeta:</label>
                 <div>
                     <label for="mastercard">Mastercard</label>
@@ -104,10 +104,10 @@
                     <img src="../IMG/american.png" alt="american">
                 </div>
             
-                <!-- Mensaje de Procesando Compra -->
+                
                 <p id="mensaje-procesando" style="display: none; color: blue;">Procesando compra...</p>
                 
-                <!-- Botones -->
+                
                 <button type="button" id="limpiar-campos">Limpiar Campos</button>
                 <button type="submit" id="ejecutar-compra">Confirmar Compra</button>
                 <p id="mensaje-procesando">Procesando compra...</p>

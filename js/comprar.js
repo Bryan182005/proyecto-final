@@ -13,21 +13,21 @@ document.addEventListener("DOMContentLoaded", function () {
     const tipoTarjeta = document.getElementsByName("tipo-tarjeta");
     const limpiarCamposBtn = document.getElementById("limpiar-campos");
     const confirmarCompra = document.getElementById("ejecutar-compra");
-    const mensajeProcesando = document.getElementById("mensaje-procesando"); // Mensaje de "Procesando compra..."
+    const mensajeProcesando = document.getElementById("mensaje-procesando"); 
     let compraEnProceso = false;
 
-    // Obtener el carrito desde localStorage
+    
     const productosCarrito = JSON.parse(localStorage.getItem("carrito")) || [];
     
-    // Leer la selección de envío a domicilio de localStorage
+    
     const envioDomicilioSeleccionado = localStorage.getItem("envioDomicilio") === "true";
 
-    // Función para calcular el cargo de domicilio
+    
     function calcularCargoDomicilio() {
         return envioDomicilioSeleccionado ? 15000 : 0;
     }
 
-    // Renderizar la tabla de productos y calcular total
+    
     function renderizarTabla() {
         tablaProductos.innerHTML = "";
         let totalCantidad = 0;
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <td>${producto.cantidad}</td>
                 <td>${producto.categoria}</td>
                 <td>${producto.medidas}</td>
-                <td><button onclick="eliminarProducto(${index})">Eliminar</button></td>
+                <td><button class="eliminar-btn" data-index="${index}">Eliminar</button></td>
             `;
             tablaProductos.appendChild(row);
     
@@ -59,49 +59,57 @@ document.addEventListener("DOMContentLoaded", function () {
         const totalConCargo = totalPrecio + cargo;
         totalFinal.textContent = `Total: $${totalConCargo.toLocaleString("es-CO", { minimumFractionDigits: 0 })}`;
 
+        const botonesEliminar = document.querySelectorAll(".eliminar-btn");
+        botonesEliminar.forEach((boton) => {
+        boton.addEventListener("click", function () {
+            const index = parseInt(this.dataset.index);
+            eliminarProducto(index);
+        });
+    });
+
         return { totalCantidad, totalPrecio, totalConCargo };
     }
 
-    window.eliminarProducto = function(index) {
-        productosCarrito.splice(index, 1);
-        localStorage.setItem("carrito", JSON.stringify(productosCarrito));
-        renderizarTabla();
+        window.eliminarProducto = function (index) {
+        console.log("Eliminando producto con índice:", index); 
+        productosCarrito.splice(index, 1); 
+        localStorage.setItem("carrito", JSON.stringify(productosCarrito)); 
+        renderizarTabla(); 
     };
-
     renderizarTabla();
 
         numeroTarjeta.addEventListener("input", function () {
-        // Eliminar todos los caracteres que no sean dígitos
+        
         let tarjetaSinEspacios = numeroTarjeta.value.replace(/\D/g, "");
     
-        // Limitar el número de dígitos a 19
+        
         if (tarjetaSinEspacios.length > 19) {
             tarjetaSinEspacios = tarjetaSinEspacios.slice(0, 19);
         }
     
-        // Formatear el número de tarjeta con espacios: XXXX XXXX XXXX XXXX XXX
+        
         const tarjetaFormateada = tarjetaSinEspacios.replace(/(\d{4})(?=\d)/g, "$1 ");
     
-        // Guardar la posición del cursor antes de actualizar el valor
+        
         const cursorPosition = numeroTarjeta.selectionStart;
     
-        // Actualizar el valor del input con el número formateado
+        
         numeroTarjeta.value = tarjetaFormateada;
     
-        // Restaurar la posición del cursor después de formatear
+        
         numeroTarjeta.setSelectionRange(cursorPosition, cursorPosition);
     });
     
     
 
-    // Validación de fecha de expiración en formato MM/AA
+    
     fechaExpiracion.addEventListener("input", function () {
         if (fechaExpiracion.value.length === 2 && !fechaExpiracion.value.includes("/")) {
             fechaExpiracion.value += "/";
         }
     });
 
-    // Mostrar y ocultar código de seguridad
+    
     mostrarCodigoBtn.addEventListener("click", function () {
         if (codigoSeguridad.type === "password") {
             codigoSeguridad.type = "text";
@@ -112,12 +120,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Limpiar campos del formulario
+    
     limpiarCamposBtn.addEventListener("click", function () {
         origenTarjeta.reset();
     });
 
-    // Mostrar y ocultar el mensaje de "Procesando compra..."
+    
     function mostrarMensajeProcesando() {
         mensajeProcesando.style.display = "block";
     }
@@ -125,21 +133,21 @@ document.addEventListener("DOMContentLoaded", function () {
         mensajeProcesando.style.display = "none";
     }
 
-    // Inhabilitar y habilitar el botón de confirmación
+    
     function inhabilitarBotones() {
         confirmarCompra.disabled = true;
         compraEnProceso = true;
         mostrarMensajeProcesando();
     }
 
-    // Validación de la compra
+    
     function validarCompra() {
         const { totalCantidad, totalPrecio } = renderizarTabla();
         
         if (totalCantidad > 20) {
             return "La cantidad de productos no debe sobrepasar los 20.";
         }
-        if (totalPrecio > 1000000000000) { // Ejemplo de límite de presupuesto
+        if (totalPrecio > 1000000000000) { 
             return "El presupuesto fue sobrepasado.";
         }
         if (!numeroTarjeta.value || numeroTarjeta.value.length !== 19) {
@@ -158,61 +166,61 @@ document.addEventListener("DOMContentLoaded", function () {
             return "Debe seleccionar un tipo de tarjeta.";
         }
         
-        return null; // No hay errores
+        return null; 
     }
     const confirmarcompra = document.getElementById("ejecutar-compra");
     confirmarcompra.addEventListener("click",procesarCompra);
-    // Función de simulación de compra
+    
 function procesarCompra() {
     return new Promise((resolve, reject) => {
-        mostrarMensajeProcesando(); // Mostrar mensaje de "Procesando compra..."
+        mostrarMensajeProcesando(); 
         
         setTimeout(() => {
-            ocultarMensajeProcesando(); // Oculta el mensaje "Procesando compra..." al finalizar
+            ocultarMensajeProcesando(); 
 
-            // Simulamos el resultado del procesamiento de pago
-            const exito = Math.random() > 0.2; // 80% de probabilidad de éxito
+            
+            const exito = Math.random() > 0.2; 
             
             if (exito) {
                 resolve("Pago realizado con éxito.");
             } else {
                 reject("Hubo un error al procesar el pago.");
             }
-        }, Math.floor(Math.random() * 1000) + 2000); // Tiempo aleatorio entre 2 y 3 segundos
+        }, Math.floor(Math.random() * 1000) + 2000); 
     });
 }
 
-// Manejador de envío del formulario
+
 origenTarjeta.addEventListener("submit", function (event) {
     event.preventDefault();
 
-    // Validación de la compra
+    
     const error = validarCompra();
     if (error) {
         alert(error);
         return;
     }
 
-    // Verificar si la compra ya está en proceso
+    
     if (compraEnProceso) {
         alert("La compra ya está en proceso, por favor espere.");
         return;
     }
 
-    confirmarCompra.disabled = true; // Inhabilitar el botón para evitar múltiples envíos
-    compraEnProceso = true; // Marcar el proceso de compra como activo
+    confirmarCompra.disabled = true; 
+    compraEnProceso = true; 
 
     inhabilitarBotones();
 
-    // Llamar a la función de procesamiento de compra
+    
     procesarCompra()
         .then((mensajeExito) => {
-            alert(mensajeExito); // Mostrar mensaje de éxito después de ocultar "Procesando compra..."
-            origenTarjeta.reset(); // Limpiar el formulario tras éxito
-            window.location.href = "index.html"; // Redirigir a la página principal
+            alert(mensajeExito); 
+            origenTarjeta.reset(); 
+            window.location.href = "index.html"; 
         })
         .catch((error) => {
-            alert(error); // Mostrar error si el pago falla
+            alert(error);
         })
 });
 });

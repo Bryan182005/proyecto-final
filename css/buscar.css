@@ -9,10 +9,10 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-image: url("../IMG/Fondo.jpeg"); /* Cambia aquí la ruta de la imagen */
-  background-size: 2200px auto; /* Hace que la imagen cubra todo el fondo */
-  background-position: center; /* Centra la imagen */
-  background-repeat: no-repeat; /* Evita que la imagen se repita */
+  background-image: url("../IMG/Fondo.jpeg"); 
+  background-size: 2200px auto; 
+  background-position: center; 
+  background-repeat: no-repeat; 
   background-attachment: fixed;
   
 }
@@ -59,7 +59,7 @@ header h1, header h2 {
   justify-content: space-between;
 }
 .product-price {
-  color: #ff0000; /* Rojo brillante */
+  color: #ff0000; 
   font-weight: bold;
   font-size: 1.1em;
   margin: 5px 0;
@@ -93,17 +93,17 @@ header h1, header h2 {
 
 .product-card button:hover {
   background-color: #0056b3;
-  transform: translateY(-2px); /* Efecto de elevación */
+  transform: translateY(-2px); 
 }
 
 .product-card button:active {
   background-color: #004494;
-  transform: translateY(0); /* Efecto de clic */
+  transform: translateY(0); 
 }
 
 
 .detalle-section {
-  display: none; /* Oculta la sección inicialmente */
+  display: none; 
   flex: 1;
   padding: 100px;
   background-color: #ffffff;
@@ -112,8 +112,8 @@ header h1, header h2 {
   position:relative;
   text-align: center;
   align-content: center;
-  margin: 0 auto; /* Centra la sección */
-  width: 1000px; /* Ancho máximo */
+  margin: 0 auto; 
+  width: 1000px; 
   height: auto;
   max-height: 1100px;
 }
@@ -126,7 +126,7 @@ header h1, header h2 {
 }
 
 .detalle-producto {
-  width: 100%; /* Asegura que la caja ocupe todo el ancho de la sección */
+  width: 100%; 
   padding: 0px;
   margin: 0px;
 }
@@ -151,7 +151,7 @@ header h1, header h2 {
   margin: 15px 0;
 }
 .detalle-producto .detalle-info {
-  text-align: left; /* Alinea los detalles a la izquierda */
+  text-align: left; 
   margin-top: 20px;
 }
 .detalle-producto .detalle-info p {
@@ -180,7 +180,7 @@ header h1, header h2 {
   cursor: pointer;
   color: #333;
 }
-/* Estilo para el botón de filtro */
+
 .filtro-boton {
   position: fixed;
   top: 30px;
@@ -294,7 +294,7 @@ header h1, header h2 {
   background-color: #f0a103;
 }
 
-/* Estilos para los botones de navegación */
+
 .navegacion-botones {
   display: flex;
   gap: 10px;
@@ -319,7 +319,7 @@ header h1, header h2 {
   background-color: #0056b3;
 }
 
-/* Estilo para el mensaje de error debajo del botón "Añadir al carrito" */
+
 .mensaje-error {
   display: none; 
   color: red; 
@@ -329,7 +329,7 @@ header h1, header h2 {
   text-align: center;
 }
 
-/* Mostrar el mensaje cuando se añada la clase 'visible' */
+
 .mensaje-error.visible {
   display: block;
 }
@@ -396,5 +396,5 @@ footer p {
 }
 
 .social-icon:hover {
-  color: #1da1f2; /* Cambia el color al pasar el cursor */
+  color: #1da1f2; 
 }

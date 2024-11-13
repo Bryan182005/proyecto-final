@@ -486,38 +486,38 @@ const mobiliario = {
     ],
 }
   
-let productosCargados = 0; // Contador de productos cargados
-const productosPorPagina = 15; // Número de productos a cargar por vez
-let cargando = false; // Bandera para evitar múltiples cargas simultáneas
-let finDeProductos = false; // Bandera para mostrar el mensaje de fin solo una vez
-let productosFiltrados = []; // Lista de productos después del filtro
+let productosCargados = 0; 
+const productosPorPagina = 15; 
+let cargando = false; 
+let finDeProductos = false; 
+let productosFiltrados = []; 
 
-// Función para cargar y renderizar productos con scroll infinito
+
 function cargarProductos() {
-    // Verificar si ya no hay más productos por cargar
+    
     if (productosCargados >= (productosFiltrados.length || mobiliario.results.length)) {
-        if (!finDeProductos) { // Mostrar el mensaje solo una vez
+        if (!finDeProductos) { 
             alert("NO HAY MAS PRODUCTOS PARA MOSTRAR")
-            finDeProductos = true; // Evitar que el mensaje se muestre varias veces
+            finDeProductos = true; 
         }
         return;
     }
     
-    // Obtener los siguientes productos desde la base de datos o los productos filtrados
+    
     const productos = (productosFiltrados.length ? productosFiltrados : mobiliario.results).slice(productosCargados, productosCargados + productosPorPagina);
     productosCargados += productos.length;
     renderizarProductos(productos);
 }
-// Modificar renderizarProductos para que no limpie el contenedor cada vez que se llame
+
 function renderizarProductos(productos) {
     const container = document.getElementById("productos-container");
 
     productos.forEach((producto) => {
-        // Crear la tarjeta de producto
+        
         const productCard = document.createElement("div");
         productCard.classList.add("product-card");
 
-        // Contenido de la tarjeta (imagen, nombre y precio)
+        
         productCard.innerHTML = `
             <img src="${producto.image}" alt="${producto.nombre}">
             <div class="product-card-content">
@@ -531,29 +531,29 @@ function renderizarProductos(productos) {
     });
 }
 
-// Función para manejar el scroll infinito
+
 function manejarScrollInfinito() {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 && !cargando && !finDeProductos) {
-        cargando = true; // Evitar que se cargue más de una vez
+        cargando = true; 
         cargarProductos();
-        cargando = false; // Permitir que se cargue nuevamente si es necesario
+        cargando = false; 
     }
 }
 
-// Evento para cargar los primeros productos cuando el DOM esté listo
+
 document.addEventListener("DOMContentLoaded", () => {
-    productosFiltrados = []; // Inicializamos los productos filtrados como vacíos al cargar
-    cargarProductos(); // Cargar los primeros 15 productos
-    window.addEventListener("scroll", manejarScrollInfinito); // Añadir el evento de scroll
+    productosFiltrados = []; 
+    cargarProductos(); 
+    window.addEventListener("scroll", manejarScrollInfinito); 
 });
 
 document.getElementById("aplicarFiltro").addEventListener("click", ejecutarFiltro);
-// Función para aplicar el filtro
+
 function ejecutarFiltro() {
     const seleccionCategoria = document.getElementById("filtroCategoria").value;
     const seleccionCantidad = document.getElementById("filtroCantidad").value;
 
-    // Filtrar productos basados en la categoría y la cantidad seleccionada
+    
     productosFiltrados = mobiliario.results.filter(producto => {
         if (seleccionCategoria && producto.categoria !== seleccionCategoria) {
             return false;
@@ -570,38 +570,38 @@ function ejecutarFiltro() {
         return true;
     });
 
-    // Limpiar contenedor y bandera de fin de productos antes de renderizar
+    
     const container = document.getElementById("productos-container");
-    container.innerHTML = ""; // Limpiar productos actuales
-    productosCargados = 0; // Reiniciar el contador
-    finDeProductos = false; // Reiniciar bandera de fin de productos
+    container.innerHTML = ""; 
+    productosCargados = 0; 
+    finDeProductos = false; 
 
     if (productosFiltrados.length === 0) {
-        document.getElementById("mensajeError").style.display = "block"; // Mostrar mensaje si no hay productos
+        document.getElementById("mensajeError").style.display = "block"; 
     } else {
-        document.getElementById("mensajeError").style.display = "none"; // Ocultar mensaje si hay productos
-        cargarProductos(); // Cargar productos filtrados
+        document.getElementById("mensajeError").style.display = "none"; 
+        cargarProductos(); 
         cerrarFiltro();
     }
 }
 
 document.getElementById("limpiarFiltro").addEventListener("click", limpiarFiltro);
-// Función para limpiar el filtro
+
 function limpiarFiltro() {
     document.getElementById("filtroCategoria").value = "";
     document.getElementById("filtroCantidad").value = "";
     document.getElementById("mensajeError").style.display = "none";
     
-    productosFiltrados = []; // Limpiar productos filtrados para mostrar todos
+    productosFiltrados = []; 
     const container = document.getElementById("productos-container");
-    container.innerHTML = ""; // Limpiar productos actuales
-    productosCargados = 0; // Reiniciar el contador
-    finDeProductos = false; // Reiniciar bandera de fin de productos
-    cargarProductos(); // Cargar todos los productos nuevamente
+    container.innerHTML = ""; 
+    productosCargados = 0; 
+    finDeProductos = false; 
+    cargarProductos(); 
     cerrarFiltro();
 }
 
-// Funciones de abrir y cerrar el filtro
+
 document.getElementById("abrirFiltro").addEventListener("click", abrirFiltro);
 document.getElementById("salirFiltro").addEventListener("click", cerrarFiltro);
 
@@ -613,7 +613,7 @@ function cerrarFiltro() {
     document.getElementById("Filtro").style.display = "none";
 }
 
-// Función para mostrar los detalles del producto (se mantiene igual)
+
 function mostrarDetalleProducto(id) {
     const producto = mobiliario.results.find(item => item.id === id);
     const detalleProducto = document.getElementById("detalle-producto");
@@ -645,7 +645,7 @@ function mostrarDetalleProducto(id) {
     botonAñadirCarrito.addEventListener("click", () => validarCantidadYAgregarAlCarrito(producto));
 }
 
-// Función para cerrar la sección de detalles
+
 function cerrarDetalle() {
     const detalleSection = document.querySelector('.detalle-section');
     detalleSection.classList.remove("mostrar");
@@ -669,22 +669,22 @@ function irinicio()
     window.location.href = "index.html";
 }
 
-// Función para validar y añadir al carrito
+
 function validarCantidadYAgregarAlCarrito(producto) {
     const cantidadInput = document.getElementById("cantidad").value;
     const mensajeCarrito = document.getElementById("mensajeErrorCarrito");
 
-    // Convertir la entrada a número entero
+    
     const cantidadSolicitada = parseInt(cantidadInput, 10);
 
-    // Validación 1: Verificar que la cantidad sea un número positivo
+    
     if (isNaN(cantidadSolicitada) || cantidadSolicitada <= 0) {
         mensajeCarrito.textContent = "Por favor, ingrese una cantidad válida.";
         mensajeCarrito.classList.add("visible");
         return;
     }
 
-    // Validación 2: Verificar que la cantidad solicitada no exceda la cantidad disponible
+    
     if (cantidadSolicitada > producto.cantidad_disponible) {
         mensajeCarrito.textContent = "La cantidad solicitada no está disponible actualmente.";
         mensajeCarrito.classList.add("visible");
@@ -692,7 +692,7 @@ function validarCantidadYAgregarAlCarrito(producto) {
         mensajeCarrito.textContent = "Producto añadido al carrito";
         mensajeCarrito.classList.add("visible");
 
-        // Añadir el producto al carrito con los datos requeridos
+        
         const productoCarrito = {
             nombre: producto.nombre,
             imagen: producto.image,
@@ -702,12 +702,12 @@ function validarCantidadYAgregarAlCarrito(producto) {
             medidas: producto.medida
         };
 
-        // Guardar en el carrito (almacenado en localStorage)
+        
         let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
         carrito.push(productoCarrito);
         localStorage.setItem("carrito", JSON.stringify(carrito));
 
-        // Ocultar el mensaje de éxito después de unos segundos
+        
         setTimeout(() => {
             mensajeCarrito.classList.remove("visible");
             mensajeCarrito.textContent = "";
